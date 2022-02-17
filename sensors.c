@@ -23,7 +23,7 @@ void init_sensors(SharedVariable* sv){
 }
 
 void body_button(SharedVariable* sv) {
-	sv->button = digitalRead( PIN_BUTTON );
+	sv->button = !digitalRead( PIN_BUTTON );
 	printf("button: %d ", sv->button);
 }
 
@@ -40,7 +40,7 @@ void body_b_ir_send(SharedVariable* sv){
 }
 
 void body_b_ir_recv(SharedVariable* sv){
-	printf("B_IR_RECV: %d \n", digitalRead( PIN_B_IR_RECV ) );
+	printf("B_IR_RECV: %d %d \n", PIN_B_IR_RECV , digitalRead( PIN_B_IR_RECV ) );
 }
 
 void print_state_console(SharedVariable* sv){
