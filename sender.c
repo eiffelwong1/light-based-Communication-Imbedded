@@ -14,7 +14,7 @@ void sendChar(char letter)
 	for(i=0;i<8;i++)
 	{
 		// TODO: investigate how long it takes for digitalWrite to execute. take this into account
-		sleeptime = (letter >> (8-i)) & 1 ? LTIME : STIME;
+		sleeptime = (letter >> (7-i)) & 1 ? LTIME : STIME;
 		digitalWrite(SENDPIN, HIGH);
 		usleep(sleeptime);
 		digitalWrite(SENDPIN, LOW);
