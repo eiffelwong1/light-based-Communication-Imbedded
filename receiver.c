@@ -55,8 +55,8 @@ void fallingCall()
 {
 	clock_gettime(CLOCK_REALTIME, &packend);
 	unsigned long packlen = timediff(packend, packstart);
-	unsigned long sdev = STIME * 1000 - packlen;
-	unsigned long ldev = LTIME * 1000 - packlen;
+	long sdev = STIME * 1000 - packlen;
+	long ldev = LTIME * 1000 - packlen;
 	sdev = sdev < 0 ? -sdev : sdev;
 	ldev = ldev < 0 ? -ldev : ldev;
 	char bit = sdev < ldev ? 0 : 1;
@@ -80,12 +80,25 @@ void fallingCall()
 	}
 }
 
+void changeCall()
+{
+	if(digitalRead(TAKEPIN))
+	{
+		risingCall();
+	}
+	else
+	{
+		fallingCall();
+	}
+}
+
 int main()
 {
 	if(wiringPiSetup() == -1)
 	{
 		printf("Receiver: wiringPi setup failed\n");
 	}
+	pinMode(TAKEPIN, INPUT);
 
 	// Set bit counter to 0
 	bitcount = 0;
@@ -93,12 +106,11 @@ int main()
 	message[0] = '\0';
 	curchar = 0;
 
-	wiringPiISR(TAKEPIN, INT_EDGE_RISING, risingCall);
-	wiringPiISR(TAKEPIN, INT_EDGE_FALLING, fallingCall);
+	wiringPiISR(TAKEPIN, INT_EDGE_BOTH, changeCall);
 
 	signal(SIGINT, signal_handler);
 
-	sleep(120);
+	sleep(240);
 
 	return 0;
 }

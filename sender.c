@@ -42,6 +42,7 @@ int main()
 			sendChar(message[i]);
 		}
 		sendChar('\0');
+		scanf("%s", message);
 	}
 	printf("Quit message received, exiting\n");
 	return 0;
