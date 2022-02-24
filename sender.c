@@ -37,7 +37,7 @@ int main()
 	scanf("%s", message);
 	while(strcmp(message, quit))
 	{
-		for(i=0;message[i]!='\0')
+		for(i=0;message[i]!='\0';i++)
 		{
 			sendChar(message[i]);
 		}

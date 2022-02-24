@@ -2,6 +2,7 @@
 #define STIME 1000 // Microseconds for a short Morse pulse
 #define LTIME 2000 // Microseconds for a long Morse pulse
 #define PTIME 2500 // Microseconds for each cycle, whether short or long
+#define WARNTOL 100 // Microseconds by which the length of a pulse is allowed to deviate from one of STIME and LTIME before a warning is generated 
 #define MAXLEN 200 // Maximum length of a message
 #define SENDPIN 8
 #define TAKEPIN 9
