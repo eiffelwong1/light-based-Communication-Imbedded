@@ -51,24 +51,40 @@ void risingCall()
 	prevpack = packstart;
 }
 
+// Analyze the time from the previous rising edge
+// and interpret the data sent
 void fallingCall()
 {
+	// Get current time
 	clock_gettime(CLOCK_REALTIME, &packend);
 	unsigned long packlen = timediff(packend, packstart);
+	printf("Pulse length %lu\n", packlen);
+	// Differences to the standard short and long
+	// pulse lengths
 	long sdev = STIME * 1000 - packlen;
 	long ldev = LTIME * 1000 - packlen;
 	sdev = sdev < 0 ? -sdev : sdev;
 	ldev = ldev < 0 ? -ldev : ldev;
 	char bit = sdev < ldev ? 0 : 1;
+	// Alert if the pulse length is neither short nor long
 	if((sdev > WARNTOL * 1000) && (ldev > WARNTOL * 1000))
 	{
 		printf("Pulse length abnormal: %lu\n", packlen);
 	}
+	// Increment the counter for how many bits have
+	// been transmitted in the current character
 	bitcount++;
 	curchar = (curchar << 1) | bit;
+	// Interpret the current character if
+	// 8 bits have been received
+	// TODO: Add error detection.
+	// Make sure that if a pulse is missed, at most
+	// the current character can be wrong
 	if(bitcount==8)
 	{
 		message[charcount++] = curchar;
+		// Print message if string end
+		// is the current character
 		if(curchar=='\0')
 		{
 			printf("%s\n", message);
