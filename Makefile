@@ -1,5 +1,4 @@
-all:
-	sender receiver
+all: sender receiver
 
 sender:
 	gcc -o sender -lwiringPi sender.c
