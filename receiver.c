@@ -58,7 +58,8 @@ void fallingCall()
 	// Get current time
 	clock_gettime(CLOCK_REALTIME, &packend);
 	unsigned long packlen = timediff(packend, packstart);
-	printf("Pulse length %lu\n", packlen);
+	packlen -= OVERHEAD * 1000;
+	// printf("Pulse length %lu\n", packlen);
 	// Differences to the standard short and long
 	// pulse lengths
 	long sdev = STIME * 1000 - packlen;

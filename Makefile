@@ -6,5 +6,8 @@ sender:
 receiver:
 	gcc -o receiver -lwiringPi receiver.c
 
+flash:
+	gcc -o flash -lwiringPi flash.c
+
 clean:
 	rm sender receiver

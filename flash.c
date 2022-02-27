@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <wiringPi.h>
 #include <unistd.h>
+#include "params.h"
+#include <stdlib.h>
 
 
 
@@ -18,9 +20,11 @@ int main()
 	pinMode(SENDPIN, OUTPUT);
 	int freq, micro;
 	printf("Enter frequency: ");
-	scanf("%d", freq);
+	scanf("%d", &freq);
+	printf("%d\n", freq);
 	micro = 1000000 / freq / 2;
-	while(true)
+	printf("%d\n", micro);
+	while(0x2e)
 	{
 		digitalWrite(SENDPIN, HIGH);
 		usleep(micro);
