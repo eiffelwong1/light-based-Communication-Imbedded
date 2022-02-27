@@ -58,7 +58,6 @@ void fallingCall()
 	// Get current time
 	clock_gettime(CLOCK_REALTIME, &packend);
 	unsigned long packlen = timediff(packend, packstart);
-	packlen -= OVERHEAD * 1000;
 	// printf("Pulse length %lu\n", packlen);
 	// Differences to the standard short and long
 	// pulse lengths
@@ -70,7 +69,7 @@ void fallingCall()
 	// Alert if the pulse length is neither short nor long
 	if((sdev > WARNTOL * 1000) && (ldev > WARNTOL * 1000))
 	{
-		printf("Pulse length abnormal: %lu\n", packlen);
+		fprintf(stderr, "Pulse length abnormal: %lu\n", packlen);
 	}
 	// Increment the counter for how many bits have
 	// been transmitted in the current character
