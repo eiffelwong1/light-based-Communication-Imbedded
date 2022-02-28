@@ -1,7 +1,9 @@
 #define TIMEOUT 2 // Milliseconds for a message to be considered dropped. When this time elapses without receiving \0 or another packet, the receiver clears the buffer.
-#define STIME 100 // Microseconds for a short Morse pulse
-#define LTIME 200 // Microseconds for a long Morse pulse
-#define PTIME 250 // Microseconds for each cycle, whether short or long
+#define STIME 26 // Microseconds for a short Morse pulse
+#define LTIME 40 // Microseconds for a long Morse pulse
+#define SLOOP 10000
+#define LLOOP 15000
+#define TLOOP 25000
 #define WARNTOL 200 // Microseconds by which the length of a pulse is allowed to deviate from one of STIME and LTIME before a warning is generated 
 #define MAXLEN 200 // Maximum length of a message
 #define OVERHEAD 70

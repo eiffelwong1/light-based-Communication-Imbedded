@@ -18,6 +18,9 @@ struct timespec prevpack;
 
 char message[MAXLEN + 1];
 
+unsigned long lens[MAXLEN * 10];
+unsigned int count = 0;
+
 // Which bit we are on
 char bitcount;
 int charcount;
@@ -28,6 +31,9 @@ unsigned long billion = 1000000000;
 
 void signal_handler(int signum) {
 	printf("\nProgram exits by SIGINT.\n");
+	int i;
+	for(i=0;i<count;i++)
+	printf("%lu\n", lens[i]);
 	exit(0);
 }
 
@@ -67,12 +73,13 @@ void fallingCall()
 	ldev = ldev < 0 ? -ldev : ldev;
 	char bit = sdev < ldev ? 0 : 1;
 	// Alert if the pulse length is neither short nor long
-	if((sdev > WARNTOL * 1000) && (ldev > WARNTOL * 1000))
-	{
-		fprintf(stderr, "Pulse length abnormal: %lu\n", packlen);
-	}
+	//if((sdev > WARNTOL * 1000) && (ldev > WARNTOL * 1000))
+	//{
+	//	fprintf(stderr, "Pulse length abnormal: %lu\n", packlen);
+	//}
 	// Increment the counter for how many bits have
 	// been transmitted in the current character
+	lens[count++] = packlen;
 	bitcount++;
 	curchar = (curchar << 1) | bit;
 	// Interpret the current character if
@@ -80,6 +87,8 @@ void fallingCall()
 	// TODO: Add error detection.
 	// Make sure that if a pulse is missed, at most
 	// the current character can be wrong
+
+	// TODO: temporarily disabled for testing
 	if(bitcount==8)
 	{
 		message[charcount++] = curchar;
@@ -87,7 +96,7 @@ void fallingCall()
 		// is the current character
 		if(curchar=='\0')
 		{
-			printf("%s\n", message);
+			// printf("%s\n", message);
 			charcount = 0;
 			message[0] = '\0';
 		}
