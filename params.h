@@ -1,4 +1,4 @@
-#define TIMEOUT 10 // Milliseconds for a message to be considered dropped. When this time elapses without receiving \0 or another packet, the receiver clears the buffer.
+#define TIMEOUT 1200 // Microseconds for a message to be considered dropped. When this time elapses without receiving \0 or another packet, the receiver clears the buffer.
 #define STIME 100 // Microseconds for a short Morse pulse
 #define LTIME 200 // Microseconds for a long Morse pulse
 #define PTIME 250 // Microseconds for each cycle, whether short or long

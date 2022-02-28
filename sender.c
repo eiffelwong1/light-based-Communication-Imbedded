@@ -47,7 +47,7 @@ int main()
 			sendChar(message[i]);
 		}
 		sendChar('\0');
-		sendChar('\0');
+		usleep(PTIME << 3);
 		scanf("%s", message);
 	}
 	printf("Quit message received, exiting\n");

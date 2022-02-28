@@ -41,7 +41,7 @@ void risingCall()
 {
 	clock_gettime(CLOCK_REALTIME, &packstart);
 	unsigned long diff = timediff(packstart, prevpack);
-	if(diff > TIMEOUT * 1000000)
+	if(diff > TIMEOUT * 1000)
 	{
 		bitcount = 0;
 		charcount = 0;
