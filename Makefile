@@ -9,5 +9,9 @@ receiver:
 flash:
 	gcc -o flash -lwiringPi flash.c
 
+hamming:
+	rm hamming
+	gcc -o hamming hamming.c
+
 clean:
 	rm sender receiver

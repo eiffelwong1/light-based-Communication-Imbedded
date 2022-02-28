@@ -87,9 +87,12 @@ void fallingCall()
 		// is the current character
 		if(curchar=='\0')
 		{
-			printf("%s\n", message);
+			if(charcount > 1)
+			{
+				printf("%s\n", message);
+				message[0] = '\0';
+			}
 			charcount = 0;
-			message[0] = '\0';
 		}
 		bitcount = 0;
 		curchar = 0;

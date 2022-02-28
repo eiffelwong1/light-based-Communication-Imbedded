@@ -33,6 +33,10 @@ int main()
 		printf("Sender: wiringpi setup failed\n");
 		return 1;
 	}
+	sendChar('\0');
+	sendChar('\0');
+	sendChar('\0');
+	sendChar('\0');
 	pinMode(SENDPIN, OUTPUT);
 	printf("Enter message\n");
 	scanf("%s", message);
@@ -42,6 +46,7 @@ int main()
 		{
 			sendChar(message[i]);
 		}
+		sendChar('\0');
 		sendChar('\0');
 		scanf("%s", message);
 	}
