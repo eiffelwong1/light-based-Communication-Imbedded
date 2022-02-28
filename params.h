@@ -1,6 +1,6 @@
 #define TIMEOUT 2 // Milliseconds for a message to be considered dropped. When this time elapses without receiving \0 or another packet, the receiver clears the buffer.
-#define STIME 26 // Microseconds for a short Morse pulse
-#define LTIME 40 // Microseconds for a long Morse pulse
+#define STIME 25 // Microseconds for a short Morse pulse
+#define LTIME 50 // Microseconds for a long Morse pulse
 #define SLOOP 10000
 #define LLOOP 15000
 #define TLOOP 25000

@@ -11,3 +11,8 @@ flash:
 
 clean:
 	rm sender receiver
+
+
+ham:
+	gcc -o hamming hamming.c
+	./hamming

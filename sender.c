@@ -45,12 +45,13 @@ int main()
 	scanf("%s", message);
 	while(strcmp(message, quit))
 	{
+		while(1){
 		for(i=0;message[i]!='\0';i++)
 		{
 			sendChar(message[i]);
 		}
 		sendChar('\0');
-		scanf("%s", message);
+		};
 	}
 	printf("Quit message received, exiting\n");
 	return 0;

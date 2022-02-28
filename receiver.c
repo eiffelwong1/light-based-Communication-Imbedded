@@ -96,7 +96,8 @@ void fallingCall()
 		// is the current character
 		if(curchar=='\0')
 		{
-			// printf("%s\n", message);
+			printf("%s\n", message);
+			fflush(stdout);
 			charcount = 0;
 			message[0] = '\0';
 		}
