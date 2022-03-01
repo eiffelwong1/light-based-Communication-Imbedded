@@ -1,20 +1,31 @@
-#include <stdio.h>
 #include <wiringPi.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include "params.h"
 #include <string.h>
 #include <unistd.h>
+#include "hamming.h"
 
 void sendChar(char letter)
 {
+	int hammingto[8], hammingfrom[20];
+	hammingto[0] = (letter >> 7) & 1;
+	hammingto[1] = (letter >> 6) & 1;
+	hammingto[2] = (letter >> 5) & 1;
+	hammingto[3] = (letter >> 4) & 1;
+	hammingto[4] = (letter >> 3) & 1;
+	hammingto[5] = (letter >> 2) & 1;
+	hammingto[6] = (letter >> 1) & 1;
+	hammingto[7] = letter & 1;
+	toHamming(hammingto, 8, hammingfrom);
+
 	// Send a character as 8 short or long pulses
 	char i;
 	unsigned int sleeptime;
-	for(i=0;i<8;i++)
+	for(i=1;i<15;i++)
 	{
 		// TODO: investigate how long it takes for digitalWrite to execute. take this into account
-		sleeptime = (letter >> (7-i)) & 1 ? LTIME : STIME;
+		sleeptime = hammingfrom[i] ? LTIME : STIME;
 		sleeptime = sleeptime > OVERHEAD ? sleeptime - OVERHEAD : sleeptime;
 		digitalWrite(SENDPIN, HIGH);
 		usleep(sleeptime);

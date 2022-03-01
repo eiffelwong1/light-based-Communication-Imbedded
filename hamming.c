@@ -30,10 +30,10 @@ bool fromHamming(int* ham, int len, int* data){
 		int d = i*4;
 		int h = i*7;
 		
-		for(int j =0; j < 7; j++){
-			printf("%d",ham[h+j]);
-		}
-		printf("\n");
+		//for(int j =0; j < 7; j++){
+		//	printf("%d",ham[h+j]);
+		//}
+		//printf("\n");
 
 		c1=ham[h+1]^ham[h+7]^ham[h+5]^ham[h+3];
 		c2=ham[h+2]^ham[h+7]^ham[h+6]^ham[h+3];
@@ -44,9 +44,9 @@ bool fromHamming(int* ham, int len, int* data){
 			printf("error found and corrected at %d \n",c);
 			ham[h+c] = !ham[h+c];	
 		}
-		for(int j =0; j < 7; j++){
-			printf("%d",ham[h+j]);
-		}
+		//for(int j =0; j < 7; j++){
+		//	printf("%d",ham[h+j]);
+		//}
 		printf("\n");
 		data[d+0] = ham[h+7];
 		data[d+1] = ham[h+6];

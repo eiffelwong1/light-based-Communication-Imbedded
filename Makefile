@@ -1,16 +1,15 @@
 all: sender receiver
 
 sender:
-	gcc -o sender -lwiringPi sender.c
+	gcc -o sender -lwiringPi hamming.h sender.c
 
 receiver:
-	gcc -o receiver -lwiringPi receiver.c
+	gcc -o receiver -lwiringPi hamming.h receiver.c
 
 flash:
 	gcc -o flash -lwiringPi flash.c
 
 hamming:
-	rm hamming
 	gcc -o hamming hamming.c
 
 clean:
