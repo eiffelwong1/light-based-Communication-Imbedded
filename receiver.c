@@ -24,6 +24,7 @@ char message[MAXLEN + 1];
 char bitcount;
 int charcount;
 
+// The current character
 char curchar;
 
 unsigned long billion = 1000000000;
@@ -39,6 +40,14 @@ unsigned long timediff(struct timespec a, struct timespec b)
 	return billion * (a.tv_sec - b.tv_sec) + a.tv_nsec - b.tv_nsec;
 }
 
+// Callback on the rising edge
+// Record the time of the rising edge
+// End and print the previous message
+// if it had been too long since the previous pulse
+// If the previous message had not been properly terminated
+// with \0 and times out instead, it had been corrupted
+// so we print it and reset to ensure the upcoming
+// messages are not affected
 void risingCall()
 {
 	clock_gettime(CLOCK_REALTIME, &packstart);
@@ -61,13 +70,15 @@ int hammingto[20], hammingfrom[8];
 
 // Analyze the time from the previous rising edge
 // and interpret the data sent
+// This involves appending a bit to the current character
+// and ending the current character or message
+// if they are complete
 void fallingCall()
 {
 
 	// Get current time
 	clock_gettime(CLOCK_REALTIME, &packend);
 	unsigned long packlen = timediff(packend, packstart);
-	// printf("Pulse length %lu\n", packlen);
 	// Differences to the standard short and long
 	// pulse lengths
 	long sdev = STIME * 1000 - packlen;
@@ -83,11 +94,8 @@ void fallingCall()
 	// Increment the counter for how many bits have
 	// been transmitted in the current character
 	hammingto[++bitcount] = bit;
-	// Interpret the current character if
-	// 8 bits have been received
-	// TODO: Add error detection.
-	// Make sure that if a pulse is missed, at most
-	// the current character can be wrong
+	// Translate to ASCII if a full 14 bits
+	// of hamming code had been received
 	if(bitcount==14)
 	{
 		fromHamming(hammingto, 14, hammingfrom);
@@ -112,6 +120,7 @@ void fallingCall()
 		// is the current character
 		if(curchar=='\0')
 		{
+			// Print the mesasge if it is not empty
 			if(charcount > 1)
 			{
 				printf("%s\n", message);
@@ -124,6 +133,8 @@ void fallingCall()
 	}
 }
 
+// Merge the rising and falling edge interrupts
+// into one
 void changeCall()
 {
 	if(digitalRead(TAKEPIN))
@@ -150,6 +161,7 @@ int main()
 	message[0] = '\0';
 	curchar = 0;
 
+	// Register the interrupt
 	wiringPiISR(TAKEPIN, INT_EDGE_BOTH, changeCall);
 
 	signal(SIGINT, signal_handler);

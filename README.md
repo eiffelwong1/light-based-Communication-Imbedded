@@ -23,4 +23,4 @@ make
 ./receiver
 ```
 
-Note that two terminal/ssh sessions are needed to run the sender and receiver simulteneously
+Note that two terminal/ssh sessions are needed to run the sender and receiver simultaneously
