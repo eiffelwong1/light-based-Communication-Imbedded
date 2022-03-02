@@ -20,6 +20,7 @@ struct timespec prevpack;
 char message[MAXLEN + 1];
 
 // Which bit we are on
+// and which character we are on
 char bitcount;
 int charcount;
 

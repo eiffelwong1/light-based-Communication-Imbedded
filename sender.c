@@ -6,8 +6,10 @@
 #include <unistd.h>
 #include "hamming.h"
 
+// Send an ASCII character
 void sendChar(char letter)
 {
+	// Manually written out for better performance
 	int hammingto[8], hammingfrom[20];
 	hammingto[0] = (letter >> 7) & 1;
 	hammingto[1] = (letter >> 6) & 1;
@@ -24,12 +26,18 @@ void sendChar(char letter)
 	unsigned int sleeptime;
 	for(i=1;i<15;i++)
 	{
-		// TODO: investigate how long it takes for digitalWrite to execute. take this into account
+		// Determine the length of this laser pulse
+		// Account for the measureed overhead of the usleep function
 		sleeptime = hammingfrom[i] ? LTIME : STIME;
 		sleeptime = sleeptime > OVERHEAD ? sleeptime - OVERHEAD : sleeptime;
+		// Start laser
 		digitalWrite(SENDPIN, HIGH);
 		usleep(sleeptime);
+		// Stop laser
 		digitalWrite(SENDPIN, LOW);
+		// Wait with the laser stopped for a falling
+		// edge interrupt to be triggered
+		// on the receiving side
 		usleep(PTIME - sleeptime);
 	}
 }
@@ -44,11 +52,16 @@ int main()
 		printf("Sender: wiringpi setup failed\n");
 		return 1;
 	}
+	// Send a few 0's because
+	// the first pulses appear to be
+	// exceptionally inaccurate.
+	// This "warms up" the system
 	sendChar('\0');
 	sendChar('\0');
 	sendChar('\0');
 	sendChar('\0');
 	pinMode(SENDPIN, OUTPUT);
+	// Keep reading messages until reading quit
 	printf("Enter message\n");
 	scanf("%s", message);
 	while(strcmp(message, quit))
@@ -58,6 +71,11 @@ int main()
 			sendChar(message[i]);
 		}
 		sendChar('\0');
+		// Wait briefly to trigger a timeout
+		// on the receiving side.
+		// This is done so that a mis-alignment caused
+		// by completely missing a laser pulse
+		// can be corrected at the end of each word
 		usleep(PTIME << 3);
 		scanf("%s", message);
 	}
